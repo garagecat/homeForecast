@@ -18,12 +18,12 @@ data = []
 data.append(date)
 data.append(temp)
 data.append(humidity)
-with open("/home/pi/Documents/plotly/homeData.csv", "a") as f_data:
+with open("/home/pi/Documents/homeForecast/homeData.csv", "a") as f_data:
     wr = csv.writer(f_data)
     wr.writerow(data)
 
 graphData = []
-with open('/home/pi/Documents/plotly/homeData.csv','r') as f:
+with open('/home/pi/Documents/homeForecast/homeData.csv','r') as f:
     reader = csv.reader(f,delimiter=',')
     for row in reader:
         graphData.append(row)
