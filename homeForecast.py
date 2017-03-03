@@ -40,7 +40,7 @@ for item in graphData:
 trace1 = go.Scatter(
          x = date,
          y = temp,
-         mode = 'lines+markers',
+         mode = 'lines',
          #mode = 'lines+markers+text',
          #text = temp,			#label
          #textposition = 'top',		#position label
@@ -52,7 +52,7 @@ trace1 = go.Scatter(
 trace2 = go.Scatter(
          x = date,
          y = hum,
-         mode = 'lines+markers',
+         mode = 'lines',
          #text = hum,
          #textposition = 'bottom',
          name = 'Humidite %',
