@@ -10,6 +10,8 @@ Data are stored in homeData.csv :
 datetime,temperature,humidity
 2017-02-26 13:24:00,22.80,25.30
 ```
+html file directly stored in /var/www/html
+
 Result :
 
 ![Screenshot](homeForecast.png)
