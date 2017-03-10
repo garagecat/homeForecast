@@ -1,15 +1,24 @@
 #!/usr/bin/python
 #-*-coding: utf-8 -*-
 
+# rimkov - homeForecast
+# DHT22 polling with Raspberry pi and graph data with Plotly
+# launched by crontab every 15 minutes
+
 from plotly.offline import plot
 import plotly.graph_objs as go
 import csv, time, datetime
 import os, gzip, shutil
 import Adafruit_DHT, time
 
+datafile = "/home/pi/Documents/homeForecast/homeData.csv"
+htmlfile = "/var/www/html/homeForecast.html"
+
 date = time.strftime('%Y-%m-%d %H:%M:%S')
 
+#gpio pi number
 pin = 23
+#polling sensor type 22 (dht22)
 humidity, temp = Adafruit_DHT.read_retry(22, pin)
 
 humidity = '%0.2f' % humidity
@@ -18,13 +27,15 @@ data = []
 data.append(date)
 data.append(temp)
 data.append(humidity)
-with open("/home/pi/Documents/homeForecast/homeData.csv", "a") as f_data:
+#write to data file
+with open(datafile, "a") as f_data:
     wr = csv.writer(f_data)
     wr.writerow(data)
 
+#read from data file
 graphData = []
-with open('/home/pi/Documents/homeForecast/homeData.csv','r') as f:
-    reader = csv.reader(f,delimiter=',')
+with open(datafile, "r") as f:
+    reader = csv.reader(f, delimiter=",")
     for row in reader:
         graphData.append(row)
 
@@ -41,9 +52,6 @@ trace1 = go.Scatter(
          x = date,
          y = temp,
          mode = 'lines',
-         #mode = 'lines+markers+text',
-         #text = temp,			#label
-         #textposition = 'top',		#position label
          name = 'Temperature °',
          line = dict (
               width = 2,
@@ -53,8 +61,6 @@ trace2 = go.Scatter(
          x = date,
          y = hum,
          mode = 'lines',
-         #text = hum,
-         #textposition = 'bottom',
          name = 'Humidite %',
          line = dict (
               width = 2,
@@ -69,14 +75,14 @@ xaxis = dict(
         title="date",
         type="date",
         autorange=True,
-        linewidth = 2,	#épaisseur axes
+        linewidth = 2,
     ),
 yaxis = dict(
         title="mesure",
-#       type="",
         autorange=True,
         linewidth = 2,
     )
-    )
-filename = '/var/www/html/homeForecast.html'
-plot({"data": fig,"layout": layout},filename=filename,auto_open=False)
+)
+
+#offline plot to html file
+plot({"data": fig,"layout": layout},filename=htmlfile,auto_open=False)
