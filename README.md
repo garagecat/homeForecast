@@ -12,8 +12,6 @@ datetime,temperature,humidity
 ```
 html file directly stored in /var/www/html
 
-Result :
-
 ![Screenshot](homeForecast.png)
 
 Requirements
